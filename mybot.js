@@ -33,23 +33,23 @@ client.on("message", (message) => {
     // var discordInvites = client.channels.get('312918635536711680');
     // discordInvites.send('DONE SIR!');
 
-    return message.awaitReactions(r => r.author.id === '192256925025566721', {
-      'errors': ['time'],
-      'max': 1,
-      time: 30000
-    }).then(reac => {
-      if (!reac) return;
-      reac = reac.array()[0];
-      let validReactions = ['⚠', '❌', '🚷', '⛔'];
-      if (validReactions.includes(reac.content)) {
-        if (reac.content === '⚠' || reac.content === '❌' || reac.content === '🚷' || reac.content === '⛔' ) {
-          message.reply("Well done, sir!");
-        };
-      }
-    }).catch(error => {
-      console.error(error);
-      message.channel.send('ERROR');
-    });
+    // return message.awaitReactions(r => r.author.id === '192256925025566721', {
+    //   'errors': ['time'],
+    //   'max': 1,
+    //   time: 30000
+    // }).then(reac => {
+    //   if (!reac) return;
+    //   reac = reac.array()[0];
+    //   let validReactions = ['⚠', '❌', '🚷', '⛔'];
+    //   if (validReactions.includes(reac.content)) {
+    //     if (reac.content === '⚠' || reac.content === '❌' || reac.content === '🚷' || reac.content === '⛔' ) {
+    //       message.reply("Well done, sir!");
+    //     };
+    //   }
+    // }).catch(error => {
+    //   console.error(error);
+    //   message.channel.send('ERROR');
+    // });
 
 
     // await member.guild.react('❌') {
@@ -59,11 +59,17 @@ client.on("message", (message) => {
 
 //bad words ts ts ts
 var badWords = [
-  "fuck", "shit"
+  "shit", "fuck", "damn", "bitch", "crap", "piss", "dick", "darn", "cock", "pussy", "asshole", "fag", "bastard", "slut", "douche"
 ]
   if (message.content.includes(badWords)) {
     var deletedContent = client.channels.get('312894658718203904')
-    message.delete().then(msg => deletedContent.sendMessage(`${message.content}`)).catch(console.error);
+    deletedContent.send(`${message.content}`).then(msg => {
+      msg.react('⚠');
+      msg.react('❌');
+      msg.react('🚷');
+      msg.react('⛔');
+    });
+    // message.delete().then(msg => deletedContent.sendMessage(`${message.content}`)).catch(console.error);
   };
 
   if (message.channel.type !== 'text' && !message.content.startsWith(config.prefix + "DZN") && !message.content.startsWith(config.prefix + "contact")) {

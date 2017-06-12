@@ -31,3 +31,16 @@
 
 
 //not actually shutting down the bot, getting an error!
+
+exports.conf = {
+  enabled: false,
+  guildOnly: false,
+  aliases: ['st', 'shutdown'],
+  permLevel: 4
+};
+
+exports.help = {
+  name: 'shutdown',
+  description: 'Shutdown the bot.',
+  usage: 'shotdown'
+};

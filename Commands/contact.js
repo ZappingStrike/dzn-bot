@@ -9,3 +9,16 @@
 // };
 
 //BROKEN, OVERLORD FIX DIS
+
+exports.conf = {
+  enabled: false,
+  guildOnly: false,
+  aliases: ['c', 'contact'],
+  permLevel: 4
+};
+
+exports.help = {
+  name: 'contact',
+  description: 'Contact us.',
+  usage: 'contact [message]'
+};

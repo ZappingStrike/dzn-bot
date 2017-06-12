@@ -2,138 +2,70 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 const config = require('./config.json');
 const fs = require("fs");
+require('./util/eventLoader.js')(client);
+const chalk = require('chalk');
+const moment = require('moment');
 
-client.login(config.token);
 
-fs.readdir("./events/", (err, files) => {
-  if (err) return console.error(err);
-  files.forEach(file => {
-    let eventFunction = require(`./events/${file}`);
-    let eventName = file.split(".")[0];
-    client.on(eventName, (...args) => eventFunction.run(client, ...args));
+const log = message => {
+  console.log(`[${moment().format('YYYY-MM-DD HH:mm:ss')}] ${message}`);
+};
+
+client.commands = new Discord.Collection();
+client.aliases = new Discord.Collection();
+fs.readdir('./commands/', (err, files) => {
+  if (err) console.error(err);
+  log(`Loading a total of ${files.length} commands.`);
+  files.forEach(f => {
+    let props = require(`./commands/${f}`);
+    log(`Loading Command: ${props.help.name}...`);
+    client.commands.set(props.help.name, props);
+    props.conf.aliases.forEach(alias => {
+      client.aliases.set(alias, props.help.name);
+    });
   });
 });
 
-client.on("message", (message) => {
-  if (message.author.bot) return;
-
-  if(message.content.includes("https://discord.gg/")) {
-    if (message.content.includes("https://discord.gg/ezacvzR")) return;
-    if (message.content.includes("https://discord.gg/5zrGMY9")) return;
-    var discordInvites = client.channels.get('312918635536711680');
-    let msg = message.delete().then(msg => discordInvites.send(`**${message.author.tag}** (${message.author.id}): \n*${message.content}*`)).then(msg => {
-      msg.react('⚠');
-      msg.react('❌');
-      msg.react('🚷');
-      msg.react('⛔');
-    });
-  };
-
-
-    // var discordInvites = client.channels.get('312918635536711680');
-    // discordInvites.send('DONE SIR!');
-
-    // return message.awaitReactions(r => r.author.id === '192256925025566721', {
-    //   'errors': ['time'],
-    //   'max': 1,
-    //   time: 30000
-    // }).then(reac => {
-    //   if (!reac) return;
-    //   reac = reac.array()[0];
-    //   let validReactions = ['⚠', '❌', '🚷', '⛔'];
-    //   if (validReactions.includes(reac.content)) {
-    //     if (reac.content === '⚠' || reac.content === '❌' || reac.content === '🚷' || reac.content === '⛔' ) {
-    //       message.reply("Well done, sir!");
-    //     };
-    //   }
-    // }).catch(error => {
-    //   console.error(error);
-    //   message.channel.send('ERROR');
-    // });
-
-
-    // await member.guild.react('❌') {
-    //   message.reply("SUCCESS!");
-    // };
-  // }
-
-//bad words ts ts ts
-var badWords = [
-  "shit", "fuck", "damn", "bitch", "crap", "piss", "dick", "darn", "cock", "pussy", "asshole", "fag", "bastard", "slut", "douche"
-]
-  if (message.content.includes(badWords)) {
-    var deletedContent = client.channels.get('312894658718203904')
-    deletedContent.send(`${message.content}`).then(msg => {
-      msg.react('⚠');
-      msg.react('❌');
-      msg.react('🚷');
-      msg.react('⛔');
-    });
-    // message.delete().then(msg => deletedContent.sendMessage(`${message.content}`)).catch(console.error);
-  };
-
-  if (message.channel.type !== 'text' && !message.content.startsWith(config.prefix + "DZN") && !message.content.startsWith(config.prefix + "contact")) {
-  //   if (!message.content.startsWith(config.prefix + "DZN") && !message.content.startsWith(config.prefix + "contact")) {
-    message.reply("All commands are disabled in direct messages, except `!DZN` to contact us directly.").catch(console.log);
-    var chat = client.channels.get('309731091520946177');
-    return chat.sendMessage(`**${message.author.username}**#${message.author.discriminator}(${message.author.id}): \n*${message.content}*`);
-  };
-
-  if (!message.content.startsWith(config.prefix)) return;
-
-  let command = message.content.split(" ")[0];
-  command = command.slice(config.prefix.length);
-
-  let args = message.content.split(" ").slice(1);
-
-  try {
-    let commandFile = require(`./commands/${command}.js`);
-    commandFile.run(client, message, args);
-} catch (err) {
-  return;
-}
-});
-
-function clean(text) {
-  if (typeof(text) === "string")
-    return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
+client.reload = command => {
+  return new Promise((resolve, reject) => {
+    try {
+      delete require.cache[require.resolve(`./commands/${command}`)];
+      let cmd = require(`./commands/${command}`);
+      client.commands.delete(command);
+      client.aliases.forEach((cmd, alias) => {
+        if (cmd === command) client.aliases.delete(alias);
+      });
+      client.commands.set(command, cmd);
+      cmd.conf.aliases.forEach(alias => {
+        client.aliases.set(alias, cmd.help.name);
+      });
+      resolve();
+    } catch (e){
+      reject(e);
+    }
+  });
 };
 
-client.on('message', message => {
-  if(message.author.id !== config.ownerid) return;
-  const prefix = "!!!";
-  const args = message.content.split(" ").slice(1);
+client.elevation = message => {
+  let permlvl = 0;
+  let dzn_staff = message.guild.roles.find('name', config.dznStaffName);
+  if (dzn_staff && message.member.roles.has(dzn_staff.id)) permlvl = 2;
+  let mod_role = message.guild.roles.find('name', config.modrolename);
+  if (mod_role && message.member.roles.has(mod_role.id)) permlvl = 3;
+  let admin_role = message.guild.roles.find('name', config.adminrolename);
+  if (admin_role && message.member.roles.has(admin_role.id)) permlvl = 4;
+  if (message.author.id === config.ownerid) permlvl = 5;
+  return permlvl;
+};
 
-  if (message.content.startsWith(prefix + "eval")) {
-    try {
-      var code = args.join(" ");
-      var evaled = eval(code);
+var regToken = /[\w\d]{24}\.[\w\d]{6}\.[\w\d-_]{27}/g;
 
-      if (typeof evaled !== "string")
-        evaled = require("util").inspect(evaled);
-
-      message.channel.sendCode("xl", clean(evaled));
-    } catch (err) {
-      message.channel.sendMessage(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
-    }
-  }
+client.on('warn', e => {
+  console.log(chalk.bgYellow(e.replace(regToken, 'that was redacted')));
 });
 
-//==I don't know if this feature will be used==
+client.on('error', e => {
+  console.log(chalk.bgRed(e.replace(regToken, 'that was redacted')));
+});
 
-//client.on("presenceUpdate", (oldMember, newMember) => {
-//  let guild = newMember.guild;
-//  let playRole = guild.roles.find("name", "Playing Dropzone");
-//  if(!playRole) return;
-
-//  if(newMember.user.presence.game && newMember.user.presence.game.name === "Dropzone") {
-//    newMember.addRole(playRole);
-//  } else if(!newMember.user.presence.game && newMember.roles.has(playRole.id)) {
-//    newMember.removeRole(playRole);
-//  }
-//});
-
-//message.User.sendMessage
-//Message.mentions.users.first().sendMessage("Text")
-
-//CLS
+client.login(config.token);

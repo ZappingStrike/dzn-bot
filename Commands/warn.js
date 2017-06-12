@@ -5,3 +5,16 @@
 //   chat.send(`${message.author.username}: \n${warnMessage}`);
 //     message.react('✅');
 // };
+
+exports.conf = {
+  enabled: false,
+  guildOnly: false,
+  aliases: ['w', 'warn'],
+  permLevel: 4
+};
+
+exports.help = {
+  name: 'warn',
+  description: 'Warns the user.',
+  usage: 'warn [mention] [reason]'
+};

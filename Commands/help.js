@@ -1,7 +1,3 @@
-// exports.run = (client, message, args) => {
-//     message.channel.send("Heyo! If you need any help or information regarding our Discord server please DM me, and then a DZN staff member will get in contact with you, as soon as possible! For a list of avaliable commands, please use `!commands`.").catch(console.error);
-// }
-
 const config = require('../config.json');
 exports.run = (client, message, args) => {
   if (!args[0]) {
@@ -12,7 +8,7 @@ exports.run = (client, message, args) => {
     let command = args[0];
     if (client.commands.has(command)) {
       command = client.commands.get(command);
-      message.channel.send(`= ${command.help.name} = \nDiscription :: ${command.help.description}\nUsage :: ${command.help.usage}`, {code:'asciidoc'});
+      message.channel.send(`= ${command.help.name} = \nDiscription :: ${command.help.description}\nUsage :: ${command.help.usage}\nAliases :: ${command.conf.aliases}`, {code:'asciidoc'});
     }
   }
 };

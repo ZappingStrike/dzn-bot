@@ -29,6 +29,7 @@ if (!amount) return message.reply('please provide a number of messages to delete
 if (amount > 99) return message.reply('please provide a number between 2 an 99.');
 if (amount < 2) return message.reply('please provide a number between 2 an 99.');
 if (!amount && !user) return message.reply('please specify a user and/or an amount of messages to clean.');
+
 try {
    message.channel.fetchMessages({
   limit: amount,
@@ -38,12 +39,16 @@ try {
     messages = messages.filter(m => m.author.id === filterBy).array().slice(0, amount);
   }
   // message.channel.bulkDelete(messages).catch(error => console.log(error.stack));
-  message.channel.bulkDelete(messages);
+  message.channel.bulkDelete(messages).catch(message.reply("**ERROR** accured."));
 })
 } catch (err) {
   // message.channel.send("**ERROR**, you can't delete messages older than 14 days.")};
-  console.error(err);
+return
 };
+
+process.on('unhandledRejection', error => {
+  console.error(`Uncaught Promise Error BUT IT HAS BEEN CAUGHT: \n${error.stack}`);
+});
 
 };
 

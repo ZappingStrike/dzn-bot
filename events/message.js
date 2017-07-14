@@ -47,7 +47,6 @@ let command = message.content.split(' ')[0].slice(config.prefix.length).toLowerC
 
 if (message.channel.type !== 'text') {
   let params = message.content.split(' ').slice(1);
-  // let perms = client.elevation(message);
   let cmd;
   if (client.commands.has(command)) {
     cmd = client.commands.get(command);
@@ -55,8 +54,7 @@ if (message.channel.type !== 'text') {
     cmd = client.commands.get(client.aliases.get(command));
   }
   if (cmd) {
-    if (cmd.conf.dmable == false) return message.reply('You can\'t use this command in DMs');
-    // if (perms < cmd.conf.permLevel) return;
+    if (cmd.conf.dmable == false) return message.reply('You can\'t use this command in DMs.');
     cmd.run(client, message, params);
   } return;
 };

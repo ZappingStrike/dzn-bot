@@ -23,7 +23,7 @@ exports.conf = {
   guildOnly: false,
   aliases: ['h', 'halp'],
   permLevel: 0,
-  dmable: true
+  dmable: false
 };
 
 exports.help = {

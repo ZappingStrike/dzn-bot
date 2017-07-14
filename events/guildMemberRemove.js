@@ -1,8 +1,9 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
+const config = require('../config.json');
 
 module.exports = (member) => {
-let memberRemove = client.guilds.channels.get('325609902422884355');
-console.log(memberRemove);
-memberRemove.send("Test successful, sir.");
+  let guild = member.guild;
+  let memberRemove = guild.channels.find('name', 'mod-log');
+memberRemove.send(`Someone left the server <@${config.ownerid}>`);
 };

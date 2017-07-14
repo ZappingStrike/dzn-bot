@@ -50,7 +50,8 @@ exports.conf = {
   enabled: true,
   guildOnly: false,
   aliases: ['k', 'kick'],
-  permLevel: 3
+  permLevel: 3,
+  dmable: false
 };
 
 exports.help = {

@@ -8,7 +8,8 @@ exports.conf = {
   enabled: true,
   guildOnly: false,
   aliases: ['rl', 'reload'],
-  permLevel: 4
+  permLevel: 4,
+  dmable: true
 };
 
 exports.help = {

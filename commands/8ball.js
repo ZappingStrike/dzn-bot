@@ -17,7 +17,8 @@ exports.conf = {
   enabled: true,
   guildOnly: false,
   aliases: ['8', '8ball'],
-  permLevel: 1
+  permLevel: 1,
+  dmable: true
 };
 
 exports.help = {

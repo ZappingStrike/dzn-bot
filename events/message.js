@@ -44,8 +44,23 @@ let client = message.client;
 if (message.author.bot) return;
 if (!message.content.startsWith(config.prefix) && !message.isMentioned(client.user)) return;
 let command = message.content.split(' ')[0].slice(config.prefix.length).toLowerCase();
-// let mentionedCommand = message.content.split(' ')[1].slice(0);
-// console.log(mentionedCommand);
+
+if (message.channel.type !== 'text') {
+  let params = message.content.split(' ').slice(1);
+  // let perms = client.elevation(message);
+  let cmd;
+  if (client.commands.has(command)) {
+    cmd = client.commands.get(command);
+  } else if (client.aliases.has(command)) {
+    cmd = client.commands.get(client.aliases.get(command));
+  }
+  if (cmd) {
+    if (cmd.conf.dmable == false) return message.reply('You can\'t use this command in DMs');
+    // if (perms < cmd.conf.permLevel) return;
+    cmd.run(client, message, params);
+  } return;
+};
+
 let params = message.content.split(' ').slice(1);
 let perms = client.elevation(message);
 let cmd;

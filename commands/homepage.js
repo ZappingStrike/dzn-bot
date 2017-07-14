@@ -6,7 +6,8 @@ exports.conf = {
   enabled: true,
   guildOnly: false,
   aliases: ['site', 'page', 'homepage'],
-  permLevel: 0
+  permLevel: 0,
+  dmable: true
 };
 
 exports.help = {

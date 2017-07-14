@@ -19,7 +19,8 @@ exports.conf = {
   enabled: true,
   guildOnly: false,
   aliases: ['e', 'embed'],
-  permLevel: 4
+  permLevel: 4,
+  dmable: true
 };
 
 exports.help = {

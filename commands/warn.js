@@ -10,7 +10,8 @@ exports.conf = {
   enabled: false,
   guildOnly: false,
   aliases: ['w', 'warn'],
-  permLevel: 4
+  permLevel: 4,
+  dmable: false
 };
 
 exports.help = {

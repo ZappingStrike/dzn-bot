@@ -29,7 +29,8 @@ exports.conf = {
   enabled: true,
   guildOnly: false,
   aliases: ['info', 'serverinformation'],
-  permLevel: 4
+  permLevel: 4,
+  dmable: false
 };
 
 exports.help = {

@@ -40,7 +40,8 @@ exports.conf = {
   enabled: true,
   guildOnly: false,
   aliases: ['b', 'ban'],
-  permLevel: 4
+  permLevel: 4,
+  dmable: false
 };
 
 exports.help = {

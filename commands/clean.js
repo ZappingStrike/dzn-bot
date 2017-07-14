@@ -56,7 +56,8 @@ exports.conf = {
   enabled: true,
   guildOnly: false,
   aliases: ['c', 'clean', 'purge', 'delete'],
-  permLevel: 3
+  permLevel: 3,
+  dmable: false
 };
 
 exports.help = {

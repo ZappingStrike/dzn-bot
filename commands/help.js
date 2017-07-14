@@ -1,15 +1,20 @@
 const config = require('../config.json');
-exports.run = (client, message, args) => {
-  if (!args[0]) {
-    const commandNames = Array.from(client.commands.keys());
-    const longest = commandNames.reduce((long, str) => Math.max(long, str.length), 0);
-    message.channel.send(`= Commands List =\n\n[Use ${config.prefix}help <commandname> for details]\n\n${client.commands.map(c => `${config.prefix}${c.help.name}${' '.repeat(longest - c.help.name.length)} :: ${c.help.description}`).join('\n')}`, {code:'asciidoc'});
-  } else {
-    let command = args[0];
-    if (client.commands.has(command)) {
-      command = client.commands.get(command);
-      message.channel.send(`= ${command.help.name} = \nDiscription :: ${command.help.description}\nUsage :: ${command.help.usage}\nAliases :: ${command.conf.aliases}`, {code:'asciidoc'});
+exports.run = async (client, message, params) => {
+  const permission = client.elevation(message);
+  const commandNames = Array.from(client.commands.keys());
+  const longest = commandNames.reduce((long, str) => Math.max(long, str.length), 0);
+  try {
+    if (!params[0]) {
+      await message.channel.send(`= Command List =\n\n[Use ${config.prefix}help [comadnname] for details]\n\n${client.commands.filter(cmd => cmd.conf.permLevel <= permission).map(c => `${config.prefix}${c.help.name}${' '.repeat(longest - c.help.name.length)} :: ${c.help.description}`).join('\n')}`, {code:'asciidoc'});
+    } else {
+      let command = params[0];
+      if (client.commands.has(command)) {
+        command = client.commands.get(command);
+        await message.channel.send(`= ${command.help.name} = \n${command.help.description}\nUsage:: ${command.help.usage}\nAliases:: ${command.conf.aliases}`, {code:'asciidoc'});
+      }
     }
+  } catch (e) {
+    console.log(e);
   }
 };
 

@@ -41,7 +41,14 @@ let client = message.client;
 // //   };
 //
 //
+
 if (message.author.bot) return;
+
+if (message.channel.type !== 'text' && !message.content.startsWith(config.prefix)) {
+  message.channel.send('Hello there!\nIf you need support, use `!support`\nFor a list of all available commands usable by you, use `!help`. Otherwise, please enjoy your time in the Dropzone Nation Discord server!');
+  return;
+};
+
 if (!message.content.startsWith(config.prefix) && !message.isMentioned(client.user)) return;
 let command = message.content.split(' ')[0].slice(config.prefix.length).toLowerCase();
 

@@ -7,7 +7,6 @@ module.exports = async (messageReaction, user) => {
   let messageID = args[0];
   let channel = args[1];
 
-console.log(`${messageID} --- ${channel}`)
  let validEmojis = ['📌', '📍'];
  let validModEmojis = ['⚠','❌','🚷','⛔', '😄']
  if (validEmojis.includes(messageReaction.emoji.name)) {

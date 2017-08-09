@@ -2,24 +2,24 @@ const Discord = require("discord.js");
 const config = require('../config.json');
 
 module.exports = async message => {
-// let testNumber = 1;
-// testNumber++
-// console.log(testNumber +". Message");
 let client = message.client;
+let command = message.content.split(' ')[0].slice(config.prefix.length).toLowerCase();
 
-  const badWords = ["shit", "fuck", "damn", "bitch", "crap", "piss", "dick", "darn", "cock", "pussy", "asshole", "fag", "bastard", "slut", "douche"];
+const badWords = ["shit", "fuck", "damn", "bitch", "crap", "piss", "dick", "darn", "cock", "pussy", "asshole", "fag", "bastard", "slut", "douche", "anal", "anus", "ballsack", "blowjob", "blow", "job", "boner", "clitoris", "cock", "cunt", "dick", "dildo", "dyke", "fag", "jizz", "labia", "muff", "nigger", "nigga", "penis", "piss", "pussy", "scrotum", "sex", "slut", "smegma", "spunk", "twat", "vagina", "wank", "whore"];
   if (badWords.some(word => message.content.includes(word)) ) {
     let badWordsChannel = message.guild.channels.get('324185554897993729');
     const embed = new Discord.RichEmbed()
+    .setAuthor(message.author.tag, message.author.avatarURL)
     .setColor(0x00AE86)
     .setTimestamp()
-    .setDescription(`**Action:** Bad Word sent\n**Target:** <@${message.author.id}>\n**Moderator:** ${message.client.tag}`);
-    badWordsChannel.send({embed}).catch(console.error)
+    .setDescription(`**Action:** Wording issues\n**Message:**\n${message.content}`);
+    badWordsChannel.send(`${message.author.id}`, {embed}).catch(console.error)
     .then(msg => {
   msg.react('⚠');
   msg.react('❌');
   msg.react('🚷');
   msg.react('⛔');
+  msg.pin();
 });
 } else
 
@@ -42,7 +42,10 @@ let client = message.client;
 //
 //
 
-if (message.author.bot) return;
+//Not quite doing the trick afaik
+
+if (message.author.bot && message.author.id !== client.user.id) return;
+  if (message.author.id === client.user.id && command !== "kick") return;
 
 if (message.channel.type !== 'text' && !message.content.startsWith(config.prefix)) {
   message.channel.send('Hello there!\nIf you need support, use `!support`\nFor a list of all available commands usable by you, use `!help`. Otherwise, please enjoy your time in the Dropzone Nation Discord server!');
@@ -50,7 +53,6 @@ if (message.channel.type !== 'text' && !message.content.startsWith(config.prefix
 };
 
 if (!message.content.startsWith(config.prefix) && !message.isMentioned(client.user)) return;
-let command = message.content.split(' ')[0].slice(config.prefix.length).toLowerCase();
 
 if (message.channel.type !== 'text') {
   let params = message.content.split(' ').slice(1);

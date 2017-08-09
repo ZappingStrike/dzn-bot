@@ -12,7 +12,7 @@ exports.run = (client, message, args) => {
     .addBlankField(true)
     .setTimestamp()
     .setFooter(client.user.username, client.user.avatarURL);
-   message.channel.send(`${message.id} ${message.channel.id}`, {embed})
+    message.channel.send(`${message.id} ${message.channel.id}`, {embed});
 };
 
 exports.conf = {

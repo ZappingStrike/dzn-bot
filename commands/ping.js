@@ -1,5 +1,5 @@
 exports.run = (client, message, args) => {
-  message.reply(`My ping is: :alarm_clock: **${client.ping.toFixed(2)} ms** :alarm_clock:`);
+  message.channel.send(`My ping is: :alarm_clock: **${client.ping.toFixed(2)} ms** :alarm_clock:`);
 };
 
 exports.conf = {

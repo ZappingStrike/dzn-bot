@@ -47,14 +47,17 @@ client.reload = command => {
 };
 
 client.elevation = message => {
+  let guild = client.guilds.get('206791407141257216');
+
   let permlvl = 0;
-  let dzn_staff = message.guild.roles.find('name', config.dznStaffName);
+  let dzn_staff = guild.roles.find('name', config.dznStaffName);
   if (dzn_staff && message.member.roles.has(dzn_staff.id)) permlvl = 2;
-  let mod_role = message.guild.roles.find('name', config.modrolename);
+  let mod_role = guild.roles.find('name', config.modrolename);
   if (mod_role && message.member.roles.has(mod_role.id)) permlvl = 3;
-  let admin_role = message.guild.roles.find('name', config.adminrolename);
+  let admin_role = guild.roles.find('name', config.adminrolename);
   if (admin_role && message.member.roles.has(admin_role.id)) permlvl = 4;
-  if (message.author.id === config.ownerid) permlvl = 5;
+  if (message.author.id === client.user.id) permlvl = 5;
+  if (message.author.id === config.ownerid) permlvl = 10;
   return permlvl;
 };
 

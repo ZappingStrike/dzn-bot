@@ -5,8 +5,9 @@ exports.run = (client, message, args) => {
 let kickedDude = message.mentions.members.first();
 let reason = message.content.split(' ').slice(2).join(' ');
 let kickChannel = client.channels.get('323912843546198024');
-let guild = message.guild;
+let guild = client.guilds.get('206791407141257216');
 
+try {
 if(!message.guild.member(client.user).hasPermission('KICK_MEMBERS')) {
    return message.reply("I don't have the power to kick here.");
  };
@@ -42,8 +43,11 @@ const embed = new Discord.RichEmbed()
 .setDescription(`**Action:** Kick\n**Target:** <@${kickedDude.id}>\n**Reason:** \`\`${reason}\`\``)
  kickChannel.send({embed})
 
- kickedDude.kick(reason)
- .then(message.reply(":ok_hand:"));
+ guild.members.get(kickedDude.id).kick(reason)
+ .then(message.react("👌"));
+ } catch (e) {
+   console.log(e);
+ };
 };
 
 exports.conf = {

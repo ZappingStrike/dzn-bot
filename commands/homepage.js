@@ -13,5 +13,6 @@ exports.conf = {
 exports.help = {
   name: 'homepage',
   description: 'More information about our homepage.',
-  usage: 'homepage'
+  usage: 'homepage',
+  category: 'Help'
 };

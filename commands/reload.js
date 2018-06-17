@@ -15,5 +15,6 @@ exports.conf = {
 exports.help = {
   name: 'reload',
   description: 'Reloads a command.',
-  usage: 'reload [command]'
+  usage: 'reload [command]',
+  category: 'System'
 };

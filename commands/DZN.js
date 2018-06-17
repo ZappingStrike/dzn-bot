@@ -16,5 +16,6 @@ exports.conf = {
 exports.help = {
   name: 'DZN',
   description: 'How to contact us.',
-  usage: 'DZN'
+  usage: 'DZN',
+  category: 'Help'
 };

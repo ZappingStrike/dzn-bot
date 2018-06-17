@@ -1,25 +1,46 @@
-exports.run = async (client, message, args, level) => { // eslint-disable-line no-unused-vars
+exports.run = async (client, message, args) => {
   const code = args.join(' ');
   try {
-    const evaled = eval(code);
-    const clean = await client.clean(client, evaled);
-    message.channel.send(`\`\`\`js\n${clean}\n\`\`\``);
-    console.log(clean);
-  } catch (err) {
+      const code = args.join(" ");
+      let evaled = eval(code);
 
-    message.channel.send(`\`ERROR\` \`\`\`xl\n${await client.clean(client, err)}\n\`\`\``);
-  }
+      if (typeof evaled !== "string")
+        evaled = require("util").inspect(evaled);
+
+      message.channel.send(clean(evaled), {code:"xl"});
+    } catch (err) {
+      message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
+    }
+
+
+
+  function clean(text) {
+  if (typeof(text) === "string")
+    return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
+  else
+      return text;
+}
+
+// const clean = text => {
+//   if (typeof(text) === "string")
+//     return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
+//   else
+//       return text;
+// }
+
 };
 
 exports.conf = {
+  enabled: true,
   guildOnly: false,
-  aliases: ['e'],
+  aliases: ['eval', 'e'],
   permLevel: 10,
-  dmable: true
+  dmable: false
 };
 
 exports.help = {
   name: 'eval',
   description: 'Evaluates arbitrary Javascript.',
-  usage: 'eval [Node.js code]',
+  usage: 'eval <expression>',
+  category: 'System'
 };

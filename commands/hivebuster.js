@@ -14,5 +14,6 @@ exports.conf = {
 exports.help = {
   name: 'hivebuster',
   description: 'More information about our HiveBuster tournament.',
-  usage: 'hivebuster'
+  usage: 'hivebuster',
+  category: 'Help'
 };

@@ -1,0 +1,46 @@
+{
+  "0": {
+    "messageID": "",
+    "channelID": "",
+    "guildID": "",
+    "userTag": "",
+    "userID": "",
+    "kicks": "",
+    "bans": "",
+    "lastIncident": "",
+    "Reasons": []
+  },
+  "1": {
+    "messageID": "385893874222104587",
+    "channelID": "324185554897993729",
+    "authourTag": "Zapping Strike#0759",
+    "authorID": "192256925025566721",
+    "guild": "DZN Bot Operations",
+    "guildID": "DZN Bot Operations",
+    "punishment": "",
+    "reasons": [
+      "swearing"
+    ],
+    "mods": [],
+    "messages": [
+      "shit"
+    ]
+  },
+  "2": {
+    "messageID": "385894593503428618",
+    "channelID": "324185554897993729",
+    "authourTag": "Zapping Strike#0759",
+    "authorID": "192256925025566721",
+    "guild": "DZN Bot Operations",
+    "guildID": "309730982649528322",
+    "punishment": "",
+    "reasons": [
+      "swearing"
+    ],
+    "mods": [],
+    "messages": [
+      "shit"
+    ]
+  },
+  "modCase": 2
+}

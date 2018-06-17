@@ -15,5 +15,6 @@ exports.conf = {
 exports.help = {
   name: 'online',
   description: 'Check how many online users there are.',
-  usage: 'online'
+  usage: 'online',
+  category: 'Help'
 };

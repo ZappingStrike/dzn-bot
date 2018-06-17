@@ -18,6 +18,5 @@ exports.help = {
   name: 'cmd',
   description: 'executes a new process, very dangerous',
   usage: 'exec <expression>',
-  category: 'System',
-  extended: 'This will spawn a child process and execute the given command.'
+  category: 'System'
 };

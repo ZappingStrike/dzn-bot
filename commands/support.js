@@ -14,5 +14,6 @@ exports.conf = {
 exports.help = {
   name: 'support',
   description: 'How to get help.',
-  usage: 'support'
+  usage: 'support',
+  category: 'Help'
 };

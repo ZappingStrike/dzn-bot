@@ -42,5 +42,6 @@ exports.conf = {
 exports.help = {
   name: 'shutdown',
   description: 'Shutdown the bot.',
-  usage: 'shotdown'
+  usage: 'shotdown',
+  category: 'System'
 };

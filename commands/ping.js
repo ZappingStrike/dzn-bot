@@ -13,5 +13,6 @@ exports.conf = {
 exports.help = {
   name: 'ping',
   description: 'Checks the bot\'s ping.',
-  usage: 'ping'
+  usage: 'ping',
+  category: 'System'
 };

@@ -61,5 +61,6 @@ exports.conf = {
 exports.help = {
   name: 'kick',
   description: 'Kicks the mentioned user',
-  usage: 'kick [mention] [reason]'
+  usage: 'kick [mention] [reason]',
+  category: 'Moderation'
 };

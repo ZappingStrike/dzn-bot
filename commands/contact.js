@@ -21,5 +21,6 @@ exports.conf = {
 exports.help = {
   name: 'contact',
   description: 'Contact us.',
-  usage: 'contact [message]'
+  usage: 'contact [message]',
+  category: 'Help'
 };
